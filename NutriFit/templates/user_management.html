@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div>
+    </div>
+    <div class="customfilters" style="background-color: white">
+        <div style="display: inline-block;width: 100%">
+            <h5 style="float: left; margin-left: 20px; color: #555; font-size: 30px; text-transform: uppercase;font-family: 'poppins', sans-serif">User Management</h5>
+        </div>
+        <form action="." method="post" class="mealform">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="button_div">
+                <input type="submit" value="Filter" class="btn" name="filterUsers">
+            </div>
+        </form>
+    </div>
+
+    <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Staff</th>
+                    <th>SuperUser</th>
+                    <th>Promote/Demote</th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.is_staff }}</td>
+                    <td>{{ user.is_superuser }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/promote_user/{{ user.id }}/'"><i class="fas fa-angle-double-up" style="font-size:20px;color: #006600"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/demote_user/{{ user.id }}/'"><i class="fas fa-angle-double-down" style="font-size:20px;color: red"></i></button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="objetive-container">
+        <div class="leftbox">
+            <nav>
+                <a onclick="location.href='/profile/pro' " class="tab"><i class="fa fa-user"></i></a>
+                <a onclick="location.href='/profile/set' " class="tab"><i class="fa fa-key"></i></a>
+                <a onclick="location.href='/profile/obj' " class="tab active"><i class="fa fa-bullseye"></i></a>
+                <!--<a onclick="location.href='/profile/food' " class="tab"><i class="fa fa-utensils"></i></a>-->
+                <a onclick="location.href='/logout' " class="tab logout"><i class="fa fa-sign-out-alt"></i></a>
+            </nav>
+        </div>
+        <div class="rightbox">
+            <div class="objective tabShow">
+                <p style="color: white">.</p>
+                <h1 class="ProfileTitle">Goals</h1>
+                <p style="color: white">.</p>
+                <form action="/profile/obj" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" class="confirm-button" style="vertical-align: bottom;
+    display: block;
+    width: 50%;
+	height: 50px;
+	border-radius: 25px;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	background-size: 200%;
+	font-size: 1rem;
+	color: #fff;
+	font-family: 'Poppins', sans-serif;
+	text-transform: uppercase;
+	margin: 2rem 0;
+	cursor: pointer;
+	transition: .5s;
+" value="Update">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

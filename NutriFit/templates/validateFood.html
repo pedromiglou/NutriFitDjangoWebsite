@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card text-left" style="margin-bottom: 190px">
+      <div class="card-header" style="background-color:lightgray">
+        <h5 style="float: left; color: #38d39f; font-size: 25px; text-transform: uppercase;">{{ alimento.nome}}</h5>
+        <h5 style="float: right; color: #38d39f; font-size: 25px; text-transform: uppercase;">{{ data}}</h5>
+      </div>
+      <div class="card-body" style="background-color:lightgray">
+          <div class="info">
+              <h5>Per 100g:</h5>
+              <ul>
+                <li><label>Calories: {{ alimento.calorias }}g</label></li>
+                <li><label>Protein: {{ alimento.macro_nutrientes.proteina }}g</label></li>
+                <li><label>Carbohydrates: {{ alimento.macro_nutrientes.hidratos_carbono }}g</label></li>
+                <li><label>Fat: {{ alimento.macro_nutrientes.gordura }}g</label></li>
+              </ul>
+          </div>
+          <div class="form">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    {% if update %}
+                    <input type="submit" class="confirm" value="Update">
+                    {% else %}
+                    <input type="submit" class="confirm" value="Save">
+                    {% endif %}
+                </form>
+                <input type="submit" class="back" onclick="location.href='/daily/{{ meal.data.year }}-{{ meal.data.month }}-{{ meal.data.day }}'" value="Cancel">
+          </div>
+      </div>
+    </div>
+{% endblock %}

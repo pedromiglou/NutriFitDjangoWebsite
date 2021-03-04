@@ -1,0 +1,223 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load static %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="col-md-12" style="background: linear-gradient(to left, #c2d6d6, #008080); color: white">
+        <h2 style="text-align: center" >
+
+            <button type="button" class="add" onclick="location.href='/daily/{{ yesterday_date }}'" style="color: white">{{ yesterday_date }}  <span style="font-size: 50px">&#8592</span></button>
+            Daily Calories
+            <button type="button" class="add" onclick="location.href='/daily/{{ tomorrow_date }}'" style="color: white"><span style="font-size: 50px">&#8594</span>  {{ tomorrow_date }}</button>
+        </h2>
+    </div>
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="card col-md-6">
+                <h5 class="title">{{ calorias_consumidas }}</h5>
+                <h3 class="title">Consumed</h3>
+                <div class="progressC">
+                    <div class="progress-done" style="width: {{ percentage_calories }}% {% if percentage_calories == 100 %} ;background: linear-gradient(to right, #ed213a, #93291e){% endif %}">
+
+                    </div>
+                </div>
+                <h3 class="titleb">Remaining</h3>
+                <h5 class="titleb">{{ calorias_restantes }}</h5>
+            </div>
+            <div class="card col-md-6">
+                <h5 class="titles">Protein: {{ proteina_consumida }} / {{ proteina_total }} g</h5>
+                <div class="progress">
+                    <div class="progress-done" style="width: {{ percentage_proteina }}% {% if percentage_proteina == 100 %} ;background: linear-gradient(to right, #ed213a, #93291e){% endif %}">
+
+                    </div>
+                </div>
+                <h5 class="titles">Carbohydrates: {{ hidratos_consumidos }} / {{ hidratos_total }} g</h5>
+                <div class="progress">
+                    <div class="progress-done" style="width: {{ percentage_hidratos }}% {% if percentage_hidratos == 100 %} ;background: linear-gradient(to right, #ed213a, #93291e){% endif %}">
+
+                    </div>
+                </div>
+                <h5 class="titles">Fat: {{ gordura_consumida }} / {{ gordura_total }} g</h5>
+                <div class="progress" style="margin-bottom: 90px">
+                    <div class="progress-done" style="width: {{ percentage_gordura }}% {% if percentage_gordura == 100 %} ;background: linear-gradient(to right, #ed213a, #93291e){% endif %}">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p style="height: 50px"></p>
+    <div class="col-md-12" style="background: linear-gradient(to left, grey, #267326); color: white">
+        <h2 style="text-align: center">BreakFast</h2>
+    </div>
+    <div class="container-fluid padding">
+        <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories per 100g</th>
+                    <th>Protein</th>
+                    <th>Carbohydrates</th>
+                    <th>Fat</th>
+                    <th>Quantity</th>
+                    <th style="width: 110px"></th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for x in alimentos_breakfast %}
+                <tr>
+                    <td>{{ x.alimento.nome }}</td>
+                    <td>{{ x.alimento.calorias }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.proteina }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.hidratos_carbono }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.gordura }}</td>
+                    <td>{{ x.quantidade }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/validateFood/{{ meal1.id }}/{{ x.alimento.id }}/'"><i class="fas fa-edit" style="color: #F3B826"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/removeComposta/{{ x.alimento.id }}/{{ meal1.id }}/{{ date }}'"><i class="fas fa-trash-alt" style="color: red"></i></button>
+                        <!--<button type="button" class="add" data-toggle="modal" data-target="#AddFoodModal" name="addFood"><i class="fas fa-plus"></i></button>-->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    <input type="submit" value="Add Food" class="btn btn-success" style="margin-bottom: 10px; width:20%; margin-left: 40%; margin-right:40%" id="buttonpress" onclick="location.href='/meal/{{ meal1.id }}/';" name="breakfast"
+                                                            >
+    </div>
+
+    <div class="col-md-12" style="background: linear-gradient(to left, grey, #267326);color: white">
+        <h2 style="text-align: center">Lunch</h2>
+    </div>
+    <div class="container-fluid padding">
+        <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories per 100g</th>
+                    <th>Protein</th>
+                    <th>Carbohydrates</th>
+                    <th>Fat</th>
+                    <th>Quantity</th>
+                    <th style="width: 110px"></th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for x in alimentos_lunch %}
+                <tr>
+                    <td>{{ x.alimento.nome }}</td>
+                    <td>{{ x.alimento.calorias }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.proteina }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.hidratos_carbono }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.gordura }}</td>
+                    <td>{{ x.quantidade }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/validateFood/{{ meal2.id }}/{{ x.alimento.id }}/'"><i class="fas fa-edit" style="color: #F3B826"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/removeComposta/{{ x.alimento.id }}/{{ meal2.id }}/{{ date }}'"><i class="fas fa-trash-alt" style="color: red"></i></button>
+                        <!--<button type="button" class="add" data-toggle="modal" data-target="#AddFoodModal" name="addFood"><i class="fas fa-plus"></i></button>-->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    <input type="submit" value="Add Food" class="btn btn-success" style="margin-bottom: 10px; width:20%; margin-left: 40%; margin-right:40%" id="buttonpress" onclick="location.href='/meal/{{ meal2.id }}/';" name="lunch"
+                                                            >
+    </div>
+
+    <div class="col-md-12" style="background: linear-gradient(to left, grey, #267326); color: white">
+        <h2 style="text-align: center">Snack</h2>
+    </div>
+    <div class="container-fluid padding">
+        <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories per 100g</th>
+                    <th>Protein</th>
+                    <th>Carbohydrates</th>
+                    <th>Fat</th>
+                    <th>Quantity</th>
+                    <th style="width: 110px"></th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for x in alimentos_snack %}
+                <tr>
+                    <td>{{ x.alimento.nome }}</td>
+                    <td>{{ x.alimento.calorias }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.proteina }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.hidratos_carbono }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.gordura }}</td>
+                    <td>{{ x.quantidade }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/validateFood/{{ meal3.id }}/{{ x.alimento.id }}/'"><i class="fas fa-edit" style="color: #F3B826"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/removeComposta/{{ x.alimento.id }}/{{ meal3.id }}/{{ date }}'"><i class="fas fa-trash-alt" style="color: red"></i></button>
+                        <!--<button type="button" class="add" data-toggle="modal" data-target="#AddFoodModal" name="addFood"><i class="fas fa-plus"></i></button>-->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    <input type="submit" value="Add Food" class="btn btn-success" style="margin-bottom: 10px; width:20%; margin-left: 40%; margin-right:40%" id="buttonpress" onclick="location.href='/meal/{{ meal3.id }}/';" name="snack"
+                                                            >
+    </div>
+
+    <div class="col-md-12" style="background: linear-gradient(to left, grey, #267326); color: white">
+        <h2 style="text-align: center">Dinner</h2>
+    </div>
+    <div class="container-fluid padding">
+        <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories per 100g</th>
+                    <th>Protein</th>
+                    <th>Carbohydrates</th>
+                    <th>Fat</th>
+                    <th>Quantity</th>
+                    <th style="width: 110px"></th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for x in alimentos_dinner %}
+                <tr>
+                    <td>{{ x.alimento.nome }}</td>
+                    <td>{{ x.alimento.calorias }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.proteina }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.hidratos_carbono }}</td>
+                    <td>{{ x.alimento.macro_nutrientes.gordura }}</td>
+                    <td>{{ x.quantidade }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/validateFood/{{ meal4.id }}/{{ x.alimento.id }}/'"><i class="fas fa-edit" style="color: #F3B826"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/removeComposta/{{ x.alimento.id }}/{{ meal4.id }}/{{ date }}'"><i class="fas fa-trash-alt" style="color: red"></i></button>
+                        <!--<button type="button" class="add" data-toggle="modal" data-target="#AddFoodModal" name="addFood"><i class="fas fa-plus"></i></button>-->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    <input type="submit" value="Add Food" class="btn btn-success" style="margin-bottom: 10px; width:20%; margin-left: 40%; margin-right:40%" id="buttonpress" onclick="location.href='/meal/{{ meal4.id }}/';" name="dinner"
+                                                            >
+    </div>
+
+{% endblock %}

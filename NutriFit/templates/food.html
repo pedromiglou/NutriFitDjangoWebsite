@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div>
+    </div>
+    <div class="customfilters" style="background-color: white">
+        <div style="display: inline-block;width: 100%">
+            <h5 style="float: left; margin-left: 20px; color: #555; font-size: 30px; text-transform: uppercase;font-family: 'poppins', sans-serif">Food</h5>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <div style="display: inline-block;width: 100%">
+            {% if update %}
+            <h5 style="float: left; margin-left: 20px; color: #555; font-size: 25px; text-transform: uppercase;font-family: 'poppins', sans-serif">Update Food</h5>
+            {% else %}
+            <h5 style="float: left; margin-left: 20px; color: #555; font-size: 25px; text-transform: uppercase;font-family: 'poppins', sans-serif">Add Food</h5>
+            {% endif %}
+        </div>
+        <form action="." method="post" class="mealform">
+            {% csrf_token %}
+            {{ form2|crispy }}
+            {% if update %}
+            <div class="button_div">
+                <input type="submit" value="Update Food" class="btn" name="updateAlimento">
+            </div>
+            {% else %}
+            <div class="button_div">
+                <input type="submit" value="Add Food" class="btn" name="addAlimento">
+            </div>
+            {% endif %}
+        </form>
+        <div style="display: inline-block;width: 100%">
+            <h5 style="float: left; margin-left: 20px; color: #555; font-size: 25px; text-transform: uppercase;font-family: 'poppins', sans-serif">Food List</h5>
+        </div>
+        <form action="." method="post" class="mealform">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="button_div">
+                <input type="submit" value="Filter" class="btn" name="filterAlimentos">
+            </div>
+        </form>
+    </div>
+
+    <div class="table-box">
+        <table class="table table-bordered table-condensed table-hover">
+            <thead class="head">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories per 100g</th>
+                    <th>Protein</th>
+                    <th>Carbohydrates</th>
+                    <th>Fat</th>
+                    <th style="width: 110px"></th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+            {% for alimento in alimentos %}
+                <tr>
+                    <td>{{ alimento.nome }}</td>
+                    <td>{{ alimento.calorias }}</td>
+                    <td>{{ alimento.macro_nutrientes.proteina }}</td>
+                    <td>{{ alimento.macro_nutrientes.hidratos_carbono }}</td>
+                    <td>{{ alimento.macro_nutrientes.gordura }}</td>
+                    <td>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/food/{{ alimento.id }}/'"><i class="fas fa-edit" style="color: #F3B826"></i></button>
+                        <button type="button" class="add btn btn-outline-light" onclick="location.href='/removeFood/{{ alimento.id }}/'"><i class="fas fa-trash-alt" style="color: red"></i></button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

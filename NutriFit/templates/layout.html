@@ -1,0 +1,77 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriFit</title>
+    <link rel="stylesheet" href="{% static 'css/meal_page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/validate_page.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile_page.css' %}">
+    <link reL="stylesheet" href="fontawesome/css/all.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="{% static 'js/functions.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container-fluid" >
+            <a class="navbar-brand" href="{% if user.is_authenticated %}/daily/{% else %}/home/{% endif %}"><img src="{% static 'images/logo.png' %}" alt="Logo" class="logo"></a>
+            <button class="buttoncol" type="button" onclick="toggleList()" data-target="#navbarResponsive">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto" style="margin-bottom: 0;">
+                    <li class="nav-item active"><a class="nav-link" href="/home/">Home</a></li>
+                    <li class="nav-item" ><a class="nav-link" href="/calculate">Calculators</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item" ><a class="nav-link" href="/daily">Daily</a></li>
+                        <!--<a class="navbar-brand" href="/profile"><img src="{% static 'images/login-logo.png' %}" width="45px" height="auto" style="margin-left: 40px" alt="Logo" class="loginlogo"></a> -->
+                        {% if user.is_staff %}
+                            <li class="nav-item" ><a class="nav-link" href="/food">Food Management</a></li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <li class="nav-item" ><a class="nav-link" href="/user_management">User Management</a></li>
+                        {% endif %}
+                        <li class="navbar-item"><a class="nav-link" style="color:lightgreen" href="/profile/pro">My Account</a></li>
+                        <li class="navbar-item"><a class="nav-link" style="color:lightgreen" href="/logout">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item" ><a class="nav-link" href="/login">Login</a></li>
+                        <li class="nav-item" ><a class="nav-link" href="/signIn">Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+
+    <!--- Footer -->
+    <footer>
+        <div class="container-fluid padding" style="background-color: lightgrey">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <img src="{% static 'images/logo.png' %}" width="100px" height="auto">
+                    <hr class="light">
+                    <span>email@gmail.com</span>
+                    <span>email2@gmail.com</span>
+                    <span>Aveiro, 3800-102</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

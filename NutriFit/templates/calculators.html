@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% load static %}
+
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="col-md-3" id="leftcontainer">
+                <h1 style="font-size: 40px;color: #006600; text-align: center">BMI</h1>
+                <p style="font-size: 20px;color: #006600; text-align: center">BMI is a measurement of a person's leanness or corpulence based on their height and weight, and is intended to quantify tissue mass. It is widely used as a general indicator of whether a person has a healthy body weight for their height. Specifically, the value obtained from the calculation of BMI is used to categorize whether a person is underweight, normal weight, overweight, or obese depending on what range the value falls between. These ranges of BMI vary based on factors such as region and age, and are sometimes further divided into subcategories such as severely underweight or very severely obese. Being overweight or underweight can have significant health effects, so while BMI is an imperfect measure of healthy body weight, it is a useful indicator of whether any additional testing or action is required. Refer to the table below to see the different categories based on BMI that is used by the calculator.</p>
+            </div>
+            <div class="col-md-6" id="centercontainer">
+                <div class="container-fluid" style="height: 40%; margin-bottom: 5%">
+                    <h3 style="font-size:50px;horiz-align:center; margin-top:40px; color:lightgreen">BMI Calculator</h3>
+                    <img src="{% static 'images/bmi.png' %}" alt="IMC Calculator" class="imagemIMC">
+                    <form action="." method="post" class="fix">
+                        {% csrf_token %}
+                        <p id="peso">{{ form2.peso|as_crispy_field }}</p>
+                        <p id="altura">{{ form2.altura|as_crispy_field }}</p>
+                        <p id="idade">{{ form2.idade|as_crispy_field }}</p>
+                        {% if user.is_authenticated %}
+                            <p id="save">{{ form2.save|as_crispy_field }}</p>
+                        {% endif %}
+                        <br/>
+                        <br/>
+                        <input type="submit" value="Calculate" class="btn btn-success" name="calculateBMI">
+                    </form>
+                </div>
+                <div class="container-fluid" style="height: 40%; margin-top: 5%">
+                    <h3 style="font-size:50px;horiz-align:center; margin-top:40px; margin-bottom:40px; color:lightgreen">Caloric Intake Calculator</h3>
+                    <img src="{% static 'images/cicalculator.png' %}" alt="IMC CaloricIntakeCalculator" class="imagemCI">
+                    <form action="." method="post" class="fix2">
+                        {% csrf_token %}
+                        <p id="peso">{{ form2.peso|as_crispy_field }}</p>
+                        <p id="altura">{{ form2.altura|as_crispy_field  }}</p>
+                        <p id="idade">{{ form2.idade|as_crispy_field  }}</p>
+                        <p id="sexo">{{ form2.sexo|as_crispy_field  }}</p>
+                        <p id="activity">{{ form2.activity|as_crispy_field  }}</p>
+                        {% if user.is_authenticated %}
+                            <p id="save">{{ form2.save|as_crispy_field  }}</p>
+                        {% endif %}
+                        <br/>
+                        <br/>
+                        <input type="submit" value="Calculate" class="btn btn-success" name="calculateCI">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3" id="leftcontainer">
+                <h1 style="font-size: 40px;color: #006600; text-align: center">Caloric Intake</h1>
+                <p style="font-size: 20px;color: #006600; text-align: center">Caloric intake is simply the number of calories an individual consumes on a daily basis. An individual can also determine their caloric intake on a weekly basis or any other defined timeline.
+
+The keys to losing weight are really quite simple and straightforward. In order for an individual to lose weight, they will have to reduce the number of calories they consume to a level below their Basal Metabolic Rate (BMR). BMR refers to the average number of calories that a person's body burns on a daily basis.
+
+Calories are defined as the amount of energy contained in the food that an individual consumes. Different types of food, by volume, have more calories than others. For example, foods that are high in fat and sugar are also typically higher in calories. Hence, if an individual consumes more calories than their body utilizes, the extra calories will be stored as excess body fat.</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
